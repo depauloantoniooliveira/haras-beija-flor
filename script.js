@@ -85,7 +85,10 @@ document
 // ===========================
 // COUNTDOWNS
 // ===========================
+let _countdownsStarted = false;
 function startCountdowns() {
+  if (_countdownsStarted) return;
+  _countdownsStarted = true;
   const countdownEl = document.getElementById("countdown");
   if (countdownEl) {
     const targetDate = new Date(2026, 8, 23, 10, 0, 0).getTime();
@@ -139,11 +142,8 @@ function startCountdowns() {
   }
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", startCountdowns);
-} else {
-  startCountdowns();
-}
+startCountdowns();
+window.addEventListener("load", startCountdowns);
 
 // ===========================
 // ACTIVE NAV LINK
