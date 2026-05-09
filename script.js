@@ -76,72 +76,73 @@ const revealObserver = new IntersectionObserver(
 );
 
 document
-  .querySelectorAll(".card, .step, .testimonial, .faq-item, .stat, .tl-item, .gallery-tile, .leilao-card, .leilao-info")
+  .querySelectorAll(".card, .step, .testimonial, .faq-item, .stat, .tl-item, .gallery-tile, .leilao-info")
   .forEach((el) => {
     el.classList.add("reveal");
     revealObserver.observe(el);
   });
 
 // ===========================
-// COUNTDOWN TIMER
+// COUNTDOWNS
 // ===========================
-const countdownEl = document.getElementById("countdown");
-if (countdownEl) {
-  const targetDate = new Date(2026, 7, 15, 10, 0, 0).getTime();
-  const daysEl  = document.getElementById("cd-days");
-  const hoursEl = document.getElementById("cd-hours");
-  const minsEl  = document.getElementById("cd-mins");
-  const secsEl  = document.getElementById("cd-secs");
+function startCountdowns() {
+  const countdownEl = document.getElementById("countdown");
+  if (countdownEl) {
+    const targetDate = new Date(2026, 8, 23, 10, 0, 0).getTime();
+    const daysEl  = document.getElementById("cd-days");
+    const hoursEl = document.getElementById("cd-hours");
+    const minsEl  = document.getElementById("cd-mins");
+    const secsEl  = document.getElementById("cd-secs");
 
-  function updateCountdown() {
-    const now  = Date.now();
-    const diff = targetDate - now;
+    if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
-    if (diff <= 0) {
-      daysEl.textContent = hoursEl.textContent = minsEl.textContent = secsEl.textContent = "00";
-      return;
+    function updateCountdown() {
+      const diff = targetDate - Date.now();
+      if (diff <= 0) {
+        daysEl.textContent = hoursEl.textContent = minsEl.textContent = secsEl.textContent = "00";
+        return;
+      }
+      daysEl.textContent  = String(Math.floor(diff / 86400000)).padStart(2, "0");
+      hoursEl.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, "0");
+      minsEl.textContent  = String(Math.floor((diff % 3600000) / 60000)).padStart(2, "0");
+      secsEl.textContent  = String(Math.floor((diff % 60000) / 1000)).padStart(2, "0");
     }
 
-    const days  = Math.floor(diff / 86400000);
-    const hours = Math.floor((diff % 86400000) / 3600000);
-    const mins  = Math.floor((diff % 3600000) / 60000);
-    const secs  = Math.floor((diff % 60000) / 1000);
-
-    daysEl.textContent  = String(days).padStart(2, "0");
-    hoursEl.textContent = String(hours).padStart(2, "0");
-    minsEl.textContent  = String(mins).padStart(2, "0");
-    secsEl.textContent  = String(secs).padStart(2, "0");
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   }
 
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
+  const liveCountdown = document.getElementById("countdown-live");
+  if (liveCountdown) {
+    const liveTarget = new Date(2026, 5, 21, 20, 0, 0).getTime();
+    const liveDays  = document.getElementById("live-days");
+    const liveHours = document.getElementById("live-hours");
+    const liveMins  = document.getElementById("live-mins");
+    const liveSecs  = document.getElementById("live-secs");
+
+    if (!liveDays || !liveHours || !liveMins || !liveSecs) return;
+
+    function updateLive() {
+      const diff = liveTarget - Date.now();
+      if (diff <= 0) {
+        liveDays.textContent = liveHours.textContent = liveMins.textContent = liveSecs.textContent = "00";
+        return;
+      }
+      liveDays.textContent  = String(Math.floor(diff / 86400000)).padStart(2, "0");
+      liveHours.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, "0");
+      liveMins.textContent  = String(Math.floor((diff % 3600000) / 60000)).padStart(2, "0");
+      liveSecs.textContent  = String(Math.floor((diff % 60000) / 1000)).padStart(2, "0");
+    }
+
+    updateLive();
+    setInterval(updateLive, 1000);
+  }
 }
 
-// ===========================
-// LIVE COUNTDOWN
-// ===========================
-const liveCountdown = document.getElementById("countdown-live");
-if (liveCountdown) {
-  const liveTarget = new Date(2026, 5, 21, 20, 0, 0).getTime();
-  const liveDays  = document.getElementById("live-days");
-  const liveHours = document.getElementById("live-hours");
-  const liveMins  = document.getElementById("live-mins");
-  const liveSecs  = document.getElementById("live-secs");
-
-  function updateLive() {
-    const diff = liveTarget - Date.now();
-    if (diff <= 0) {
-      liveDays.textContent = liveHours.textContent = liveMins.textContent = liveSecs.textContent = "00";
-      return;
-    }
-    liveDays.textContent  = String(Math.floor(diff / 86400000)).padStart(2, "0");
-    liveHours.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, "0");
-    liveMins.textContent  = String(Math.floor((diff % 3600000) / 60000)).padStart(2, "0");
-    liveSecs.textContent  = String(Math.floor((diff % 60000) / 1000)).padStart(2, "0");
-  }
-
-  updateLive();
-  setInterval(updateLive, 1000);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startCountdowns);
+} else {
+  startCountdowns();
 }
 
 // ===========================

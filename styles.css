@@ -215,9 +215,8 @@ h3 { font-size: 1.15rem; }
 .menu-toggle {
   display: none;
   background: transparent;
-  border: 1.5px solid rgba(255,255,255,0.3);
-  border-radius: 8px;
-  padding: 8px 10px;
+  border: none;
+  padding: 8px 4px;
   cursor: pointer;
   flex-direction: column;
   gap: 4px;
@@ -1448,6 +1447,7 @@ details[open] .faq-question::after {
 @media (max-width: 768px) {
   .menu-toggle { display: flex; }
   .hide-mobile  { display: none; }
+  .three.service-grid { grid-template-columns: 1fr; }
 
   .nav {
     display: none;
